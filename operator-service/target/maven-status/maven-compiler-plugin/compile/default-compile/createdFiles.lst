@@ -1,7 +1,7 @@
-com/omnicharge/operator/service/OperatorService.class
-com/omnicharge/operator/OperatorServiceApplication.class
-com/omnicharge/operator/repository/RechargePlanRepository.class
-com/omnicharge/operator/controller/OperatorController.class
-com/omnicharge/operator/entity/TelecomOperator.class
-com/omnicharge/operator/repository/TelecomOperatorRepository.class
-com/omnicharge/operator/entity/RechargePlan.class
+com\omnicharge\operator\controller\OperatorController.class
+com\omnicharge\operator\OperatorServiceApplication.class
+com\omnicharge\operator\repository\RechargePlanRepository.class
+com\omnicharge\operator\service\OperatorService.class
+com\omnicharge\operator\repository\TelecomOperatorRepository.class
+com\omnicharge\operator\entity\RechargePlan.class
+com\omnicharge\operator\entity\TelecomOperator.class

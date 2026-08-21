@@ -1,4 +1,0 @@
-/app/notification-service/src/main/java/com/omnicharge/notification/service/NotificationConsumer.java
-/app/notification-service/src/main/java/com/omnicharge/notification/config/RabbitMQConfig.java
-/app/notification-service/src/main/java/com/omnicharge/notification/NotificationServiceApplication.java
-/app/notification-service/src/main/java/com/omnicharge/notification/controller/NotificationController.java

@@ -23,10 +23,6 @@ spring:
           uri: lb://recharge-service
           predicates:
             - Path=/api/v1/recharges/**
-        - id: payment-service
-          uri: lb://payment-service
-          predicates:
-            - Path=/api/v1/payments/**
 
 eureka:
   client:
@@ -47,7 +43,3 @@ springdoc:
         url: /operator-service/v3/api-docs
       - name: recharge-service
         url: /recharge-service/v3/api-docs
-      - name: payment-service
-        url: /payment-service/v3/api-docs
-      - name: notification-service
-        url: /notification-service/v3/api-docs

@@ -1,6 +1,0 @@
-com/omnicharge/payment/service/PaymentService.class
-com/omnicharge/payment/controller/PaymentController.class
-com/omnicharge/payment/entity/PaymentTransaction.class
-com/omnicharge/payment/PaymentServiceApplication.class
-com/omnicharge/payment/config/RabbitMQConfig.class
-com/omnicharge/payment/repository/PaymentRepository.class

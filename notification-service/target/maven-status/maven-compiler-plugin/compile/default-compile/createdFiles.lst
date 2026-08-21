@@ -1,4 +1,0 @@
-com/omnicharge/notification/config/RabbitMQConfig.class
-com/omnicharge/notification/NotificationServiceApplication.class
-com/omnicharge/notification/controller/NotificationController.class
-com/omnicharge/notification/service/NotificationConsumer.class

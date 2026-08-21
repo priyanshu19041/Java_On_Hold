@@ -1,6 +1,0 @@
-/app/payment-service/src/main/java/com/omnicharge/payment/controller/PaymentController.java
-/app/payment-service/src/main/java/com/omnicharge/payment/entity/PaymentTransaction.java
-/app/payment-service/src/main/java/com/omnicharge/payment/PaymentServiceApplication.java
-/app/payment-service/src/main/java/com/omnicharge/payment/repository/PaymentRepository.java
-/app/payment-service/src/main/java/com/omnicharge/payment/config/RabbitMQConfig.java
-/app/payment-service/src/main/java/com/omnicharge/payment/service/PaymentService.java

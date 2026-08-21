@@ -29,9 +29,7 @@
         <module>api-gateway</module>
         <module>user-service</module>
         <module>operator-service</module>
-        <module>payment-service</module>
         <module>recharge-service</module>
-        <module>notification-service</module>
     </modules>
 
     <dependencyManagement>

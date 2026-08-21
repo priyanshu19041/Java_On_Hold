@@ -1,0 +1,25 @@
+# Maven build outputs
+target/
+*.jar
+*.war
+*.class
+
+# JVM crash/error logs
+hs_err_pid*.log
+replay_pid*.log
+
+# IDE files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+*.eclipse
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db

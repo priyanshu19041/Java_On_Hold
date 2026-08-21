@@ -1,7 +1,7 @@
-/app/operator-service/src/main/java/com/omnicharge/operator/controller/OperatorController.java
-/app/operator-service/src/main/java/com/omnicharge/operator/repository/TelecomOperatorRepository.java
-/app/operator-service/src/main/java/com/omnicharge/operator/entity/TelecomOperator.java
-/app/operator-service/src/main/java/com/omnicharge/operator/repository/RechargePlanRepository.java
-/app/operator-service/src/main/java/com/omnicharge/operator/OperatorServiceApplication.java
-/app/operator-service/src/main/java/com/omnicharge/operator/entity/RechargePlan.java
-/app/operator-service/src/main/java/com/omnicharge/operator/service/OperatorService.java
+C:\Users\LENOVO\OneDrive\Desktop\omnicharge-root\operator-service\src\main\java\com\omnicharge\operator\entity\RechargePlan.java
+C:\Users\LENOVO\OneDrive\Desktop\omnicharge-root\operator-service\src\main\java\com\omnicharge\operator\entity\TelecomOperator.java
+C:\Users\LENOVO\OneDrive\Desktop\omnicharge-root\operator-service\src\main\java\com\omnicharge\operator\OperatorServiceApplication.java
+C:\Users\LENOVO\OneDrive\Desktop\omnicharge-root\operator-service\src\main\java\com\omnicharge\operator\repository\TelecomOperatorRepository.java
+C:\Users\LENOVO\OneDrive\Desktop\omnicharge-root\operator-service\src\main\java\com\omnicharge\operator\repository\RechargePlanRepository.java
+C:\Users\LENOVO\OneDrive\Desktop\omnicharge-root\operator-service\src\main\java\com\omnicharge\operator\service\OperatorService.java
+C:\Users\LENOVO\OneDrive\Desktop\omnicharge-root\operator-service\src\main\java\com\omnicharge\operator\controller\OperatorController.java

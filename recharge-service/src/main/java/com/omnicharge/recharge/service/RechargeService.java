@@ -1,15 +1,15 @@
 package com.omnicharge.recharge.service;
 
 import com.omnicharge.recharge.client.OperatorClient;
-import com.omnicharge.recharge.client.PaymentClient;
 import com.omnicharge.recharge.client.UserClient;
-import com.omnicharge.recharge.dto.PaymentTransactionDto;
+import com.omnicharge.recharge.config.RabbitMQConfig;
 import com.omnicharge.recharge.dto.RechargePlanDto;
 import com.omnicharge.recharge.dto.UserDto;
 import com.omnicharge.recharge.entity.RechargeRequest;
 import com.omnicharge.recharge.repository.RechargeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
@@ -20,8 +20,8 @@ public class RechargeService {
 
     private final RechargeRepository repository;
     private final OperatorClient operatorClient;
-    private final PaymentClient paymentClient;
     private final UserClient userClient;
+    private final RabbitTemplate rabbitTemplate;
 
     public RechargeRequest initiateRecharge(RechargeRequest request) {
         request.setRequestDate(LocalDateTime.now());
@@ -51,25 +51,18 @@ public class RechargeService {
         
         request.setAmount(plan.getPrice());
         
-        // 2. Process Payment via Payment Service
-        PaymentTransactionDto paymentReq = new PaymentTransactionDto();
-        paymentReq.setUserId(request.getUserId());
-        paymentReq.setAmount(request.getAmount());
-        paymentReq.setRechargePlanId(request.getPlanId());
+        // 2. Save PENDING request and publish to RabbitMQ for asynchronous processing
+        RechargeRequest savedRequest = repository.save(request);
         
         try {
-            PaymentTransactionDto paymentRes = paymentClient.makePayment(paymentReq);
-            if ("SUCCESS".equals(paymentRes.getStatus())) {
-                request.setStatus("SUCCESS");
-                request.setPaymentTransactionId(paymentRes.getTransactionId());
-            } else {
-                request.setStatus("FAILED");
-            }
+            rabbitTemplate.convertAndSend(RabbitMQConfig.RECHARGE_EXCHANGE, RabbitMQConfig.RECHARGE_ROUTING_KEY, savedRequest);
+            log.info("Published recharge request ID: {} to RabbitMQ queue", savedRequest.getId());
         } catch (Exception e) {
-            log.error("Payment failed", e);
-            request.setStatus("FAILED");
+            log.error("Failed to publish message to RabbitMQ", e);
+            savedRequest.setStatus("FAILED");
+            return repository.save(savedRequest);
         }
         
-        return repository.save(request);
+        return savedRequest;
     }
 }
