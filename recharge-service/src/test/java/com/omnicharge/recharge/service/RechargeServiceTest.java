@@ -2,7 +2,6 @@ package com.omnicharge.recharge.service;
 
 import com.omnicharge.recharge.client.OperatorClient;
 import com.omnicharge.recharge.client.UserClient;
-import com.omnicharge.recharge.config.RabbitMQConfig;
 import com.omnicharge.recharge.dto.RechargePlanDto;
 import com.omnicharge.recharge.dto.UserDto;
 import com.omnicharge.recharge.entity.RechargeRequest;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.math.BigDecimal;
 
@@ -29,9 +27,6 @@ public class RechargeServiceTest {
 
     @Mock
     private OperatorClient operatorClient;
-
-    @Mock
-    private RabbitTemplate rabbitTemplate;
 
     @Mock
     private UserClient userClient;
@@ -70,11 +65,10 @@ public class RechargeServiceTest {
         RechargeRequest response = rechargeService.initiateRecharge(dummyRequest);
 
         assertEquals("FAILED", response.getStatus());
-        verify(rabbitTemplate, never()).convertAndSend(anyString(), anyString(), any(Object.class));
     }
 
     @Test
-    void shouldPublishPendingRecharge() {
+    void shouldProcessRechargeSuccessfully() {
         when(userClient.getUserById(1L)).thenReturn(dummyUser);
         when(operatorClient.getPlanById(1L)).thenReturn(dummyPlan);
         when(repository.save(any(RechargeRequest.class))).thenAnswer(i -> {
@@ -85,11 +79,11 @@ public class RechargeServiceTest {
 
         RechargeRequest response = rechargeService.initiateRecharge(dummyRequest);
 
-        assertEquals("PENDING", response.getStatus());
+        assertEquals("SUCCESS", response.getStatus());
         assertEquals(new BigDecimal("199.00"), response.getAmount());
+        assertNotNull(response.getPaymentTransactionId());
 
         verify(operatorClient).getPlanById(1L);
         verify(repository, times(1)).save(any(RechargeRequest.class));
-        verify(rabbitTemplate).convertAndSend(eq(RabbitMQConfig.RECHARGE_EXCHANGE), eq(RabbitMQConfig.RECHARGE_ROUTING_KEY), any(RechargeRequest.class));
     }
 }

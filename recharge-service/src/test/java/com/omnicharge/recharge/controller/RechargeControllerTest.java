@@ -40,7 +40,7 @@ public class RechargeControllerTest {
         response.setId(100L);
         response.setUserId(1L);
         response.setMobileNumber("9876543210");
-        response.setStatus("PENDING");
+        response.setStatus("SUCCESS");
 
         when(rechargeService.initiateRecharge(any(RechargeRequest.class))).thenReturn(response);
 
@@ -49,6 +49,6 @@ public class RechargeControllerTest {
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(100))
-                .andExpect(jsonPath("$.status").value("PENDING"));
+                .andExpect(jsonPath("$.status").value("SUCCESS"));
     }
 }

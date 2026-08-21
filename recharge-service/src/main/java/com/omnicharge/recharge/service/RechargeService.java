@@ -2,16 +2,15 @@ package com.omnicharge.recharge.service;
 
 import com.omnicharge.recharge.client.OperatorClient;
 import com.omnicharge.recharge.client.UserClient;
-import com.omnicharge.recharge.config.RabbitMQConfig;
 import com.omnicharge.recharge.dto.RechargePlanDto;
 import com.omnicharge.recharge.dto.UserDto;
 import com.omnicharge.recharge.entity.RechargeRequest;
 import com.omnicharge.recharge.repository.RechargeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +20,6 @@ public class RechargeService {
     private final RechargeRepository repository;
     private final OperatorClient operatorClient;
     private final UserClient userClient;
-    private final RabbitTemplate rabbitTemplate;
 
     public RechargeRequest initiateRecharge(RechargeRequest request) {
         request.setRequestDate(LocalDateTime.now());
@@ -51,17 +49,12 @@ public class RechargeService {
         
         request.setAmount(plan.getPrice());
         
-        // 2. Save PENDING request and publish to RabbitMQ for asynchronous processing
-        RechargeRequest savedRequest = repository.save(request);
+        // 2. Process Recharge
+        request.setStatus("SUCCESS");
+        request.setPaymentTransactionId(UUID.randomUUID().toString()); // Simulate transaction ID
         
-        try {
-            rabbitTemplate.convertAndSend(RabbitMQConfig.RECHARGE_EXCHANGE, RabbitMQConfig.RECHARGE_ROUTING_KEY, savedRequest);
-            log.info("Published recharge request ID: {} to RabbitMQ queue", savedRequest.getId());
-        } catch (Exception e) {
-            log.error("Failed to publish message to RabbitMQ", e);
-            savedRequest.setStatus("FAILED");
-            return repository.save(savedRequest);
-        }
+        RechargeRequest savedRequest = repository.save(request);
+        log.info("Successfully processed recharge request ID: {}", savedRequest.getId());
         
         return savedRequest;
     }
